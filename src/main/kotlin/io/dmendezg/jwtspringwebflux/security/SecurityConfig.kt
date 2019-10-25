@@ -21,35 +21,35 @@ import reactor.core.publisher.Mono
 @EnableWebFluxSecurity
 class WebSecurity {
 
-    @Value("\${key}")
-    private val key: String? = null
+  @Value("\${key}")
+  private val key: String? = null
 
-    @Bean
-    fun springWebFilterChain(
-        http: ServerHttpSecurity, authenticationManager: ReactiveAuthenticationManager
-    ): SecurityWebFilterChain {
+  @Bean
+  fun springWebFilterChain(
+      http: ServerHttpSecurity, authenticationManager: ReactiveAuthenticationManager
+  ): SecurityWebFilterChain {
 
-        http.addFilterAt(CorsFilter(), SecurityWebFiltersOrder.FIRST)
-        http.addFilterAt(JWTWebFilter(authenticationManager), SecurityWebFiltersOrder.AUTHENTICATION)
-        http.securityContextRepository(BearerServerSecurityContextRepository())
+    http.addFilterAt(CorsFilter(), SecurityWebFiltersOrder.FIRST)
+    http.addFilterAt(JWTWebFilter(authenticationManager), SecurityWebFiltersOrder.AUTHENTICATION)
+    http.securityContextRepository(BearerServerSecurityContextRepository())
 
-        http.authorizeExchange()
-            .pathMatchers("/actuator/**").permitAll()
-            .pathMatchers("/oauth/token").permitAll()
-            .anyExchange().authenticated()
+    http.authorizeExchange()
+        .pathMatchers("/actuator/**").permitAll()
+        .pathMatchers("/oauth/token").permitAll()
+        .anyExchange().authenticated()
 
-        http.httpBasic().disable()
-            .formLogin().disable()
-            .csrf().disable()
-            .logout().disable()
+    http.httpBasic().disable()
+        .formLogin().disable()
+        .csrf().disable()
+        .logout().disable()
 
-        return http.build()
-    }
+    return http.build()
+  }
 
-    @Bean
-    fun reactiveAuthenticationManager(): ReactiveAuthenticationManager {
-        return JwtAuthenticationProvider(key)
-    }
+  @Bean
+  fun reactiveAuthenticationManager(): ReactiveAuthenticationManager {
+    return JwtAuthenticationProvider(key)
+  }
 
 
 }
@@ -57,36 +57,36 @@ class WebSecurity {
 class JWTWebFilter(
     private val authenticationManager: ReactiveAuthenticationManager
 ) : WebFilter {
-    override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
-        return ReactiveSecurityContextHolder.getContext()
-            .flatMap { securityContext ->
-                this.authenticationManager.authenticate(securityContext.authentication)
-                    .map { securityContext.authentication = it }
-                    .map { exchange }
-            }
-            .defaultIfEmpty(exchange)
-            .flatMap { chain.filter(it) }
-    }
+  override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
+    return ReactiveSecurityContextHolder.getContext()
+        .flatMap { securityContext ->
+          this.authenticationManager.authenticate(securityContext.authentication)
+              .map { securityContext.authentication = it }
+              .map { exchange }
+        }
+        .defaultIfEmpty(exchange)
+        .flatMap { chain.filter(it) }
+  }
 }
 
 class CorsFilter : WebFilter {
-    override fun filter(ctx: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
-        ctx.response.headers.add("Access-Control-Allow-Origin", "*")
-        ctx.response.headers.add("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS")
-        ctx.response.headers.add("Access-Control-Allow-Headers", HEADERS)
-        return if (ctx.request.method == HttpMethod.OPTIONS) {
-            ctx.response.headers.add("Access-Control-Max-Age", "1728000")
-            ctx.response.statusCode = HttpStatus.NO_CONTENT
-            Mono.empty()
-        } else {
-            ctx.response.headers.add("Access-Control-Expose-Headers", HEADERS)
-            chain.filter(ctx)
-        }
+  override fun filter(ctx: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
+    ctx.response.headers.add("Access-Control-Allow-Origin", "*")
+    ctx.response.headers.add("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS")
+    ctx.response.headers.add("Access-Control-Allow-Headers", HEADERS)
+    return if (ctx.request.method == HttpMethod.OPTIONS) {
+      ctx.response.headers.add("Access-Control-Max-Age", "1728000")
+      ctx.response.statusCode = HttpStatus.NO_CONTENT
+      Mono.empty()
+    } else {
+      ctx.response.headers.add("Access-Control-Expose-Headers", HEADERS)
+      chain.filter(ctx)
     }
+  }
 
-    companion object {
-        const val HEADERS = "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With," +
-                "If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range,Authorization"
-    }
+  companion object {
+    const val HEADERS = "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With," +
+        "If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range,Authorization"
+  }
 
 }
