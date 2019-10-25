@@ -51,7 +51,6 @@ class WebSecurity {
     return JwtAuthenticationProvider(key)
   }
 
-
 }
 
 class JWTWebFilter(
