@@ -7,32 +7,32 @@ import org.springframework.security.core.GrantedAuthority
 
 class JWTAuthenticationToken(private val jws: Jws<Claims>) : Authentication {
 
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return mutableListOf()
-    }
+  override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+    return mutableListOf()
+  }
 
-    override fun setAuthenticated(isAuthenticated: Boolean) {
-        TODO("not implemented")
-    }
+  override fun setAuthenticated(isAuthenticated: Boolean) {
+    TODO("not implemented")
+  }
 
-    override fun getName(): String {
-        return this.jws.body.subject
-    }
+  override fun getName(): String {
+    return this.jws.body.subject
+  }
 
-    override fun getCredentials(): Any {
-        return this.jws.body.getValue("scopes")
-    }
+  override fun getCredentials(): Any {
+    return this.jws.body.getValue("scopes")
+  }
 
-    override fun getPrincipal(): Any {
-        return this.jws.body.subject
-    }
+  override fun getPrincipal(): Any {
+    return this.jws.body.subject
+  }
 
-    override fun isAuthenticated(): Boolean {
-        return true
-    }
+  override fun isAuthenticated(): Boolean {
+    return true
+  }
 
-    override fun getDetails(): Any {
-        TODO("not implemented")
-    }
+  override fun getDetails(): Any {
+    TODO("not implemented")
+  }
 
 }
