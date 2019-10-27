@@ -1,1 +1,5 @@
 key: "PseudoSecret-Pseudosecret-Please-Use-Ur-Own-Key-PseudoSecret-Pseudosecret"
+spring:
+  data:
+    mongodb:
+      uri: "mongodb://localhost:27017/jwt"
