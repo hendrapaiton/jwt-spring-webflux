@@ -1,6 +1,6 @@
 # jwt-spring-webflux
 
-Sample project that uses Spring Webflux with JWT Tokens
+Sample project that uses Spring Webflux Kotlin with JWT Tokens and MongoDB using username/password login
 
 ## Run the application
 ```
@@ -19,15 +19,15 @@ POST http://localhost:8080/oauth/token
 Body
 ```json
 {
-  "username": "John"
+  "username": "hendra",
+  "password": 1234
 }
 ```
 
 Sample response
 ```json
 {
-    "token": "ey...",
-    "expiresIn": 7200
+    "token": "ey..."
 }
 ```
 
@@ -42,5 +42,5 @@ Authorization: Bearer {token}
 
 Sample response
 ```
-Hello John!
+Hello hendra!
 ```
