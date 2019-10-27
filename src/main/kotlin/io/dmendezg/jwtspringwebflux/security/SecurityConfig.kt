@@ -84,8 +84,8 @@ class CorsFilter : WebFilter {
   }
 
   companion object {
-    const val HEADERS = "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With," +
-        "If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range,Authorization"
+    const val HEADERS = "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With," +
+        "If-Modified-Since, Cache-Control, Content-Type, Content-Range, Range, Authorization"
   }
 
 }
