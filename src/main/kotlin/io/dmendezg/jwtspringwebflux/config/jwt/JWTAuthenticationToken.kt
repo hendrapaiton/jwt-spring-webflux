@@ -1,4 +1,4 @@
-package io.dmendezg.jwtspringwebflux.security.jwt
+package io.dmendezg.jwtspringwebflux.config.jwt
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws

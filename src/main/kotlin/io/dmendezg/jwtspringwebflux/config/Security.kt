@@ -1,6 +1,6 @@
-package io.dmendezg.jwtspringwebflux.security
+package io.dmendezg.jwtspringwebflux.config
 
-import io.dmendezg.jwtspringwebflux.security.jwt.JwtAuthenticationProvider
+import io.dmendezg.jwtspringwebflux.config.jwt.JwtAuthenticationProvider
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

@@ -1,4 +1,4 @@
-package io.dmendezg.jwtspringwebflux.security
+package io.dmendezg.jwtspringwebflux.config
 
 import org.springframework.http.server.reactive.ServerHttpRequest
 import org.springframework.security.core.context.SecurityContext

@@ -1,4 +1,4 @@
-package io.dmendezg.jwtspringwebflux.security
+package io.dmendezg.jwtspringwebflux.config
 
 import io.dmendezg.jwtspringwebflux.repository.UserRepository
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
